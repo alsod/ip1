@@ -2,20 +2,17 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -24,6 +21,7 @@ import javax.swing.JTextField;
  * Client.java
  *
  * Uppgift 4.1.1 (Stream-sockets: klient) i kursen Internetprogrammering 1
+ * GUI- och sändardel av klienten.
  *
  * @author André Karlsson
  *
@@ -79,37 +77,54 @@ public class Client extends JFrame {
         chatBox.setMinimumSize(new Dimension(640, 460));
         messageBox.setMaximumSize(new Dimension(640, 25));
 
-        messageBox.addActionListener(new EnterListener());
+        messageBox.addActionListener(new EnterListener()); //Lyssna efter enter
 
         content.add(scrollPane);
         content.add(messageBox);
 
+        chatBox.setEditable(false);
+
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         getContentPane().add(content);
 
+        /*Ge meddelanderutan fokus från start*/
+        addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+                messageBox.requestFocus();
+            }
+        });
+
+        /*Skapa socket och lyssningstråd*/
         createSocket();
-        
+
     }
 
+    /**
+     * Metod för att initiera socket och in- och utströmmar samt starta en lyssnartråd.
+     *
+     */
     private void createSocket() {
 
         try {
-            s = new Socket(host, Integer.valueOf(port));
+            s = new Socket(host, Integer.valueOf(port)); //skapa ny socket
 
-            setTitle(host + ":" + port);
+            setTitle(host + ":" + port); //sätt titelrad i fönster
             in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             out = new PrintWriter(s.getOutputStream(), true);
-            ClientThread listen = new ClientThread(in, chatBox);
-            listen.start();
+            ClientThread listen = new ClientThread(in, chatBox); //skapa lyssnartråd
+            listen.start(); //starta tråd
         } catch (IOException ex) {
             System.err.println("Någonting gick fel, kanske fel Host eller port?");
+            System.exit(1);
         }
     }
 
     class EnterListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            out.println(messageBox.getText());
+            out.println(messageBox.getText()); //skicka text till server
             messageBox.setText("");
         }
     }

@@ -7,6 +7,10 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 /**
+ * ClientThread.java
+ *
+ * Uppgift 4.1.1 (Stream-sockets: klient) i kursen Internetprogrammering 1
+ * Lyssnartråd som uppdaterar chatrutan då ett meddelande mottas.
  *
  * @author André Karlsson
  *
@@ -26,8 +30,9 @@ public class ClientThread extends Thread {
     public void run() {
 
         try {
+            /*Så länge det finns meddelanden i strömmen så skriv dessa till chatrutan*/
             while ((msg = in.readLine()) != null) {
-                /* Använder swing*/
+                /* Använder SwingUtilities för att göra uppdateringen av chatrutan trådsäker*/
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
