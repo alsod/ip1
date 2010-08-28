@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Draw extends JFrame {
 
-    protected static Set hs = new ConcurrentSkipListSet(new PointComparator());
+    protected static final Set<Point> hs = Collections.synchronizedSet(new HashSet<Point>());
     protected static DatagramSocket socket;
     protected static DatagramPacket packet;
     protected static byte[] buf = new byte[256];
@@ -29,8 +29,6 @@ public class Draw extends JFrame {
         System.out.println(args[0]);
         adress = InetAddress.getByName(args[1]);
         port = Integer.parseInt(args[2]);
-
-
 
         new Draw();
 
@@ -51,16 +49,6 @@ public class Draw extends JFrame {
         p.addPoint(pnt);
     }
 
-    private static class PointComparator implements Comparator<Point> {
-        @Override
-        public int compare(Point p1, Point p2) {
-            int xDistance = p2.x - p1.x;
-            if (xDistance == 0) {
-                return p2.y - p1.y;
-            }
-            return xDistance;
-        }
-    } 
 }
 
 class Paper extends JPanel {
@@ -78,15 +66,19 @@ class Paper extends JPanel {
         }
     }
 
+    
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.black);
+        synchronized(Draw.hs){
         Iterator i = Draw.hs.iterator();
         while (i.hasNext()) {
 
             Point p = (Point) i.next();
             g.fillOval(p.x, p.y, 10, 10);
 
+        }
         }
     }
 
