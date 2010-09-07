@@ -1,19 +1,19 @@
 
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
+ * @author Andre Karlsson
  *
- * @author alsod
+ * Class is used by the View to create the components and layout
+ * of the connection dialog. Provides getters and possibly setters
+ * for textfields.
  */
 public class ConnectionDialog {
+
     private JPanel textPanel;
     private JLabel addressLabel;
     private JLabel portLabel;
@@ -23,14 +23,23 @@ public class ConnectionDialog {
     private JTextField addressField;
     private JTextField portField;
     private JTextField usernameField;
-    private JTextField loginField;
-    private JButton loginButton;
+    private JButton connectButton;
+    private JButton closeButton;
+    private JTextField passwordField;
 
-  public JPanel createContentPane() {
+    /**
+     * Create all components and lay them out on a panel. Return this so it
+     * can be used on a frame.
+     * @return JPanel
+     */
+    public JPanel createContentPane() {
 
-        // We create a bottom JPanel to place everything on.
+        // Create a bottom JPanel to place everything on.
         JPanel dialogPanel = new JPanel();
         dialogPanel.setLayout(null);
+
+
+        /* Labels */
 
         // Creation of a Panel to contain the JLabels
         textPanel = new JPanel();
@@ -46,7 +55,7 @@ public class ConnectionDialog {
         addressLabel.setHorizontalAlignment(4);
         textPanel.add(addressLabel);
 
-        // Username Label
+        // Port Label
         portLabel = new JLabel("Port:");
         portLabel.setLocation(0, 40);
         portLabel.setSize(70, 40);
@@ -66,6 +75,9 @@ public class ConnectionDialog {
         passwordLabel.setSize(70, 40);
         passwordLabel.setHorizontalAlignment(4);
         textPanel.add(passwordLabel);
+
+
+        /* TextFields */
 
         // TextFields Panel Container
         panelForTextFields = new JPanel();
@@ -92,28 +104,77 @@ public class ConnectionDialog {
         usernameField.setSize(100, 30);
         panelForTextFields.add(usernameField);
 
-        // Login Textfield
-        loginField = new JTextField(8);
-        loginField.setLocation(0, 120);
-        loginField.setSize(100, 30);
-        panelForTextFields.add(loginField);
+        // Password Textfield
+        passwordField = new JTextField(8);
+        passwordField.setLocation(0, 120);
+        passwordField.setSize(100, 30);
+        panelForTextFields.add(passwordField);
 
+
+        /* Buttons */
 
         // Button for Logging in
-        loginButton = new JButton("Login");
-        loginButton.setLocation(40, 210);
-        loginButton.setSize(80, 30);
-        //loginButton.addActionListener(this);
-        dialogPanel.add(loginButton);
+        connectButton = new JButton("Connect");
+        connectButton.setLocation(40, 210);
+        connectButton.setSize(80, 30);
+        dialogPanel.add(connectButton);
 
         // Button for closing dialog
-        loginButton = new JButton("Close");
-        loginButton.setLocation(130, 210);
-        loginButton.setSize(80, 30);
-        //loginButton.addActionListener(this);
-        dialogPanel.add(loginButton);
+        closeButton = new JButton("Close");
+        closeButton.setLocation(130, 210);
+        closeButton.setSize(80, 30);
+        dialogPanel.add(closeButton);
 
         dialogPanel.setOpaque(true);
         return dialogPanel;
+    }
+
+    /**
+     * Send String with field contents to be used to make a connection
+     * @return String
+     */
+    public String getAddressField() {
+        return addressField.getText();
+    }
+
+    /**
+     * Send String with field contents to be used to make a connection
+     * @return String
+     */
+    public String getPasswordField() {
+        return passwordField.getText();
+    }
+
+    /**
+     * Send String with field contents to be used to make a connection
+     * @return String
+     */
+    public String getPortField() {
+        return portField.getText();
+    }
+
+    /**
+     * Send String with field contents to be used to make a connection
+     * @return String
+     */
+    public String getUsernameField() {
+        return usernameField.getText();
+    }
+
+
+
+    /**
+     * Add Actionlistener to components in Dialog
+     * @param al
+     */
+    public void addConnectionDialogActionListeners(ActionListener al) {
+        // Add listener to Connect Button
+        connectButton.setActionCommand("connectbutton");
+        connectButton.addActionListener(al);
+
+        // Add listener to close button
+        closeButton.setActionCommand("closebutton");
+        closeButton.addActionListener(al);
+
     }
 }

@@ -1,23 +1,24 @@
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.*;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+/**
+ * @author Andre Karlsson
+ *
+ * View part of the application, everything graphical goes here
+ *
+ */
 public class AppView {
 
     JTextArea left, right;
     JScrollPane scrollPaneLeft, scrollPaneRight;
-
+    ConnectionDialog cd = new ConnectionDialog();
     MenuBar mb = new MenuBar();
-
+    ContentPane c = new ContentPane();
+    ActionListener al;
+    
 
     public AppView() {
 //        //Schedule a job for the event-dispatching thread:
@@ -30,58 +31,54 @@ public class AppView {
 //        });
     }
 
-
-
-    public Container createContentPane() {
-        //Create the content-pane-to-be.
-        JPanel contentPane = new JPanel(new BorderLayout());
-        contentPane.setOpaque(true);
-
-        //Create file
-        left = new JTextArea(5, 30);
-        right = new JTextArea(5, 30);
-        left.setEditable(true);
-        right.setEditable(true);
-
-        scrollPaneLeft = new JScrollPane(left);
-        scrollPaneRight = new JScrollPane(right);
-
-        scrollPaneLeft.setPreferredSize(new Dimension(340, 460));
-        scrollPaneRight.setPreferredSize(new Dimension(340, 460));
-
-        //Add the text area to the content pane.
-        contentPane.add(left, BorderLayout.WEST);
-        contentPane.add(right, BorderLayout.EAST);
-        return contentPane;
-    }
-
-  
-    public void addMenuBarActionListeners(ActionListener al){
-        mb.addMenuBarActionListeners(al);
-    }
-
+    /**
+     * Create a Frame to be used as a dialog.
+     */
     public void createConnectionDialog() {
         //Create and set up the window.
         JFrame frame = new JFrame("Connection");
-        ConnectionDialog cd = new ConnectionDialog();
 
-        frame.setContentPane(cd.createContentPane());
+        frame.setContentPane(cd.createContentPane()); // Get pane from ConnectionDialog class
 
         //Display the window.
         frame.setSize(250, 290);
         frame.setVisible(true);
+        addConnectionDialogActionListeners();
     }
 
+    /**
+     * Create a Frame, add a JMenuBar and a Container to it and set the size.
+     */
     private void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("aFTP");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setJMenuBar(mb.createMenuBar());
-        frame.setContentPane(createContentPane());
+        frame.setJMenuBar(mb.createMenuBar()); // Get pane from MenuBar class
+        frame.setContentPane(c.createContentPane()); // Get pane from ContentPane class
 
         //Display the window.
         frame.setSize(800, 600);
         frame.setVisible(true);
+    }
+
+    /**
+     * Used by Controller to set the ActionListener used by components in the application
+     * @param al ActionListener given by Controller
+     */
+    public void setActionListener(ActionListener al){
+        this.al = al;
+        addMenuBarActionListeners();
+    }
+
+    /**
+     * Add actionlisteners to components in the menu bar
+     */
+    public void addMenuBarActionListeners() {
+        mb.addMenuBarActionListeners(this.al);
+    }
+
+    public void addConnectionDialogActionListeners(){
+        cd.addConnectionDialogActionListeners(this.al);
     }
 }

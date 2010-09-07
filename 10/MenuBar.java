@@ -5,28 +5,37 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-
+/**
+ * @author Andre Karlsson
+ *
+ * Class creates a menu bar and it's components to be used in main window of GUI
+ */
 public class MenuBar {
     private JMenuItem menuConnect;
     private JMenuItem menuDownload;
     private JMenuItem menuUpload;
     private JMenuItem menuDisconnect;
     private JMenuItem menuQuit;
+
+/**
+ * Create components and menu
+ * @return JMenuBar
+ */
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menuFile, menuEdit;
 
-        //Create the menu bar.
+        // Create the menu bar.
         menuBar = new JMenuBar();
 
-        //Build the file menu in the menu bar.
+        // Build the file menu in the menu bar.
         menuFile = new JMenu("File");
         menuFile.setMnemonic(KeyEvent.VK_A);
         menuFile.getAccessibleContext().setAccessibleDescription(
                 "Menu for starting new connection, getting and sending files etc.");
         menuBar.add(menuFile);
 
-        //create menu items
+        // Create menu items
         menuConnect = new JMenuItem("Connect", KeyEvent.VK_N);
         menuDownload = new JMenuItem("Download file", KeyEvent.VK_G);
         menuUpload = new JMenuItem("Upload file", KeyEvent.VK_P);
@@ -34,7 +43,7 @@ public class MenuBar {
         menuQuit = new JMenuItem("Quit", KeyEvent.VK_Q);
 
 
-        //add items to file menu
+        // Add items to file menu
         menuFile.add(menuConnect);
         menuFile.add(menuDownload);
         menuFile.add(menuUpload);
@@ -42,13 +51,17 @@ public class MenuBar {
         menuFile.add(menuQuit);
 
 
-        //Build edit menu in the menu bar.
+        // Build edit menu in the menu bar.
         menuEdit = new JMenu("Edit");
         menuBar.add(menuEdit);
 
         return menuBar;
     }
 
+    /**
+     * Add actionlistener to components in menu.
+     * @param al
+     */
     public void addMenuBarActionListeners(ActionListener al) {
         menuConnect.setActionCommand("connect");
         menuConnect.addActionListener(al);
