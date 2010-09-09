@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
@@ -105,7 +106,7 @@ public class ConnectionDialog {
         panelForTextFields.add(usernameField);
 
         // Password Textfield
-        passwordField = new JTextField(8);
+        passwordField = new JPasswordField(8);
         passwordField.setLocation(0, 120);
         passwordField.setSize(100, 30);
         panelForTextFields.add(passwordField);

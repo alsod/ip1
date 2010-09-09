@@ -1,8 +1,11 @@
 
 import java.awt.event.*;
+import java.io.File;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import org.apache.commons.net.ftp.FTPFile;
 
 /**
  * @author Andre Karlsson
@@ -12,12 +15,14 @@ import javax.swing.JTextArea;
  */
 public class AppView {
 
+    JFrame frame, cdFrame;
     JTextArea left, right;
     JScrollPane scrollPaneLeft, scrollPaneRight;
     ConnectionDialog cd = new ConnectionDialog();
     MenuBar mb = new MenuBar();
     ContentPane c = new ContentPane();
     ActionListener al;
+    MouseListener ml;
     
 
     public AppView() {
@@ -31,19 +36,45 @@ public class AppView {
 //        });
     }
 
+
+    public String getAddress(){
+        return cd.getAddressField();
+    }
+
+    public String getPort(){
+        return cd.getPortField();
+    }
+
+    public String getUsername(){
+        return cd.getUsernameField();
+    }
+
+    public String getPassword(){
+        return cd.getPasswordField();
+    }
+
+
     /**
      * Create a Frame to be used as a dialog.
      */
     public void createConnectionDialog() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Connection");
+        cdFrame = new JFrame("Connection");
 
-        frame.setContentPane(cd.createContentPane()); // Get pane from ConnectionDialog class
+        cdFrame.setContentPane(cd.createContentPane()); // Get pane from ConnectionDialog class
 
         //Display the window.
-        frame.setSize(250, 290);
-        frame.setVisible(true);
+        cdFrame.setSize(250, 290);
+        cdFrame.setVisible(true);
         addConnectionDialogActionListeners();
+    }
+
+    public void closeConnectionDialog(){
+        cdFrame.dispose();
+    }
+
+    public void createAlert(String msg){
+        JOptionPane.showMessageDialog(frame,"Eggs are not supposed to be green.", "Message", 0);
     }
 
     /**
@@ -51,7 +82,7 @@ public class AppView {
      */
     private void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("aFTP");
+        frame = new JFrame("aFTP");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setJMenuBar(mb.createMenuBar()); // Get pane from MenuBar class
@@ -68,17 +99,42 @@ public class AppView {
      */
     public void setActionListener(ActionListener al){
         this.al = al;
-        addMenuBarActionListeners();
+        mb.addMenuBarActionListeners(al);
     }
 
-    /**
-     * Add actionlisteners to components in the menu bar
+        /**
+     * Used by Controller to set the MouseListener used by components in the application
+     * @param al MouseListener given by Controller
      */
-    public void addMenuBarActionListeners() {
-        mb.addMenuBarActionListeners(this.al);
+    public void setMouseListener(MouseListener ml){
+        this.ml = ml;
+        c.setMouseListener(ml);
+
     }
+
+
 
     public void addConnectionDialogActionListeners(){
         cd.addConnectionDialogActionListeners(this.al);
+    }
+
+    public void populateRemoteList(FTPFile[] files){
+        c.populateRemoteList(files);
+    }
+
+    public void populateLocalList(File[] files){
+        c.populateLocalList(files);
+    }
+
+    public File getLocalFile(){
+        return c.getLocalFile();
+    }
+
+    public FTPFile getRemoteFile(){
+        return c.getRemoteFile();
+    }
+
+    public void quit(){
+        frame.dispose();
     }
 }
