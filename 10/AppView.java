@@ -26,14 +26,8 @@ public class AppView {
     
 
     public AppView() {
-//        //Schedule a job for the event-dispatching thread:
-//        //creating and showing this application's GUI.
-//        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-//
-//            public void run() {
         createAndShowGUI();
-//            }
-//        });
+
     }
 
 
@@ -74,7 +68,7 @@ public class AppView {
     }
 
     public void createAlert(String msg){
-        JOptionPane.showMessageDialog(frame,"Eggs are not supposed to be green.", "Message", 0);
+        JOptionPane.showMessageDialog(frame, msg, "Error", 0);
     }
 
     /**
@@ -100,6 +94,7 @@ public class AppView {
     public void setActionListener(ActionListener al){
         this.al = al;
         mb.addMenuBarActionListeners(al);
+        c.addActionListeners(al);
     }
 
         /**
@@ -137,4 +132,9 @@ public class AppView {
     public void quit(){
         frame.dispose();
     }
+
+    public void enableGUI(boolean bool){
+        c.enableGUI(bool);
+    }
+
 }

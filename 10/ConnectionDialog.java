@@ -97,6 +97,7 @@ public class ConnectionDialog {
         portField = new JTextField(8);
         portField.setLocation(0, 40);
         portField.setSize(100, 30);
+        portField.setText("21");
         panelForTextFields.add(portField);
 
         // Username Textfield
