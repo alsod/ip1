@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JList;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 /**
@@ -97,12 +98,51 @@ public class AppController implements ActionListener, MouseListener {
             view.quit();
         }
 
-        if (command.equals("rename")) {
+        if (command.equals("renameLocal")) {
             System.out.println("rename");
+            String newName = view.createRenamePopup(view.getLocalFile().getName());
+
+            if (newName != null && newName.isEmpty()) {
+                view.createAlert("No name entered, try again");
+            } else if (newName != null) {
+                model.renameLocalFile(view.getLocalFile(), newName);
+                populateLocalList();
+            }
         }
 
-        if (command.equals("delete")) {
-            System.out.println("delete");
+        if (command.equals("renameRemote")) {
+            System.out.println("rename");
+            String newName = view.createRenamePopup(view.getRemoteFile().getName());
+
+            if (newName != null && newName.isEmpty()) {
+                view.createAlert("No name entered, try again");
+            } else if (newName != null) {
+                try {
+                    model.renameRemoteFile(view.getRemoteFile(), newName);
+                } catch (IOException ex) {
+                    Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                populateRemoteList();
+
+            }
+        }
+
+        if (command.equals("deleteLocal")) {
+            if (view.createDeletePopup(view.getLocalFile().getName())) {
+                model.deleteLocalFile(view.getLocalFile());
+                populateLocalList();
+            }
+        }
+
+        if (command.equals("deleteRemote")) {
+            if (view.createDeletePopup(view.getRemoteFile().getName())) {
+                try {
+                    model.deleteRemoteFile(view.getRemoteFile());
+                } catch (IOException ex) {
+                    Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                populateRemoteList();
+            }
         }
 
     }
@@ -169,7 +209,22 @@ public class AppController implements ActionListener, MouseListener {
     public void mouseReleased(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
             JList list = (JList) e.getSource();
-            System.out.println(list.getSelectedValue() + " selected");
+
+            if (e.getComponent().getName().equals("localList")) {
+                if (!list.isSelectionEmpty() && view.getLocalFile().isFile() ) {
+                    JPopupMenu rm = view.getLocalRightClickMenu();
+                    rm.show(list, e.getX(), e.getY());
+                    System.out.println(view.getLocalFile().getAbsoluteFile() + " selected");
+                }
+            }
+
+            if (e.getComponent().getName().equals("remoteList")) {
+                if (!list.isSelectionEmpty() && view.getRemoteFile().isFile()) {
+                    JPopupMenu rm = view.getRemoteRightClickMenu();
+                    rm.show(list, e.getX(), e.getY());
+                    System.out.println(view.getRemoteFile().getName() + " selected");
+                }
+            }
         }
     }
 

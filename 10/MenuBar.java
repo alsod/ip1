@@ -54,17 +54,17 @@ public class MenuBar {
         menuFile.add(menuQuit);
 
 
-        /* Build edit menu in the menu bar */
-        menuEdit = new JMenu("Edit");
-        menuBar.add(menuEdit);
-
-        /* Create edit menu items */
-        menuRename = new JMenuItem("Rename");
-        menuDelete = new JMenuItem("Delete");
-
-        /* Add items to edit menu */
-        menuEdit.add(menuRename);
-        menuEdit.add(menuDelete);
+//        /* Build edit menu in the menu bar */
+//        menuEdit = new JMenu("Edit");
+//        menuBar.add(menuEdit);
+//
+//        /* Create edit menu items */
+//        menuRename = new JMenuItem("Rename");
+//        menuDelete = new JMenuItem("Delete");
+//
+//        /* Add items to edit menu */
+//        menuEdit.add(menuRename);
+//        menuEdit.add(menuDelete);
 
         return menuBar;
     }
@@ -89,11 +89,6 @@ public class MenuBar {
         menuQuit.setActionCommand("quit");
         menuQuit.addActionListener(al);
 
-        menuRename.setActionCommand("rename");
-        menuRename.addActionListener(al);
-
-        menuDelete.setActionCommand("delete");
-        menuDelete.addActionListener(al);
 
     }
 }

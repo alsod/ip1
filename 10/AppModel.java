@@ -102,20 +102,19 @@ public class AppModel {
      * Check if connected to server
      * @return true if connected, false otherwise
      */
-    public boolean isConnected(){
-        if(client.isConnected()){
+    public boolean isConnected() {
+        if (client.isConnected()) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
     }
 
-
-   /**
-    * Connect to ftp server
-    * @return true if connection is made, false otherwise
-    */
+    /**
+     * Connect to ftp server
+     * @return true if connection is made, false otherwise
+     */
     public boolean connectFTP() {
 
         if (username.length() == 0) {
@@ -195,7 +194,7 @@ public class AppModel {
             /* Create streams */
             in = new FileInputStream(file);
             in = new ProgressMonitorInputStream(null, "Upload", in);
-            
+
             /* The actual sending */
             client.storeFile(client.printWorkingDirectory() + "/" + file.getName(), in);
 
@@ -223,7 +222,7 @@ public class AppModel {
                     "", 0, (int) file.getSize());
 
             /* Overwrite the CopyStreamAdapter so its possible to find
-             how many bytes that have been transferred */
+            how many bytes that have been transferred */
             org.apache.commons.net.io.Util.copyStream(
                     stO,
                     stD,
@@ -276,7 +275,7 @@ public class AppModel {
     public void changeLocalDir(String localPath) {
 
         if (localPath.equals("..") && !localPath.equals("/")) {
-            
+
             /* Go to parent by removing last folder from path string */
             String[] folders = localPath.split("/");
             localPath = "/";
@@ -302,14 +301,26 @@ public class AppModel {
         } else {
             client.changeWorkingDirectory(client.printWorkingDirectory() + "/" + remotePath);
         }
-    
+
     }
 
-    public void deleteLocalFile(File file){
+    public void deleteLocalFile(File file) {
         file.delete();
     }
 
-    public void deleteRemoteFile(FTPFile file) throws IOException{
-        client.deleteFile(file.getName());
+    public void deleteRemoteFile(FTPFile file) throws IOException {
+        if(client.deleteFile(file.getName())){
+            System.out.println("delete success");
+        }else{
+            System.out.println("delete error");
+        }
+    }
+
+    public void renameLocalFile(File file, String newName) {
+        file.renameTo(new File(localPath + "/" + newName));
+    }
+
+    public void renameRemoteFile(FTPFile file, String newName) throws IOException {
+        client.rename(file.getName(), newName);
     }
 }

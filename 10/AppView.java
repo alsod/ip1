@@ -2,7 +2,9 @@
 import java.awt.event.*;
 import java.io.File;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import org.apache.commons.net.ftp.FTPFile;
@@ -23,30 +25,28 @@ public class AppView {
     ContentPane c = new ContentPane();
     ActionListener al;
     MouseListener ml;
-    
+    JPopupMenu localPopup;
 
     public AppView() {
         createAndShowGUI();
 
     }
 
-
-    public String getAddress(){
+    public String getAddress() {
         return cd.getAddressField();
     }
 
-    public String getPort(){
+    public String getPort() {
         return cd.getPortField();
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return cd.getUsernameField();
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return cd.getPasswordField();
     }
-
 
     /**
      * Create a Frame to be used as a dialog.
@@ -63,11 +63,11 @@ public class AppView {
         addConnectionDialogActionListeners();
     }
 
-    public void closeConnectionDialog(){
+    public void closeConnectionDialog() {
         cdFrame.dispose();
     }
 
-    public void createAlert(String msg){
+    public void createAlert(String msg) {
         JOptionPane.showMessageDialog(frame, msg, "Error", 0);
     }
 
@@ -91,50 +91,111 @@ public class AppView {
      * Used by Controller to set the ActionListener used by components in the application
      * @param al ActionListener given by Controller
      */
-    public void setActionListener(ActionListener al){
+    public void setActionListener(ActionListener al) {
         this.al = al;
         mb.addMenuBarActionListeners(al);
         c.addActionListeners(al);
     }
 
-        /**
+    /**
      * Used by Controller to set the MouseListener used by components in the application
      * @param al MouseListener given by Controller
      */
-    public void setMouseListener(MouseListener ml){
+    public void setMouseListener(MouseListener ml) {
         this.ml = ml;
         c.setMouseListener(ml);
 
     }
 
-
-
-    public void addConnectionDialogActionListeners(){
+    public void addConnectionDialogActionListeners() {
         cd.addConnectionDialogActionListeners(this.al);
     }
 
-    public void populateRemoteList(FTPFile[] files){
+    public void populateRemoteList(FTPFile[] files) {
         c.populateRemoteList(files);
     }
 
-    public void populateLocalList(File[] files){
+    public void populateLocalList(File[] files) {
         c.populateLocalList(files);
     }
 
-    public File getLocalFile(){
+    public File getLocalFile() {
         return c.getLocalFile();
     }
 
-    public FTPFile getRemoteFile(){
+    public FTPFile getRemoteFile() {
         return c.getRemoteFile();
     }
 
-    public void quit(){
+    public void quit() {
         frame.dispose();
     }
 
-    public void enableGUI(boolean bool){
+    public void enableGUI(boolean bool) {
         c.enableGUI(bool);
     }
 
+    public JPopupMenu getLocalRightClickMenu() {
+        localPopup = new JPopupMenu();
+        JMenuItem menuRename = new JMenuItem("Rename");
+        JMenuItem menuDelete = new JMenuItem("Delete");
+        JMenuItem menuUpload = new JMenuItem("Upload");
+
+        localPopup.add(menuRename);
+        localPopup.add(menuDelete);
+        localPopup.add(menuUpload);
+
+        menuRename.setActionCommand("renameLocal");
+        menuDelete.setActionCommand("deleteLocal");
+        menuUpload.setActionCommand("upload");
+
+        menuRename.addActionListener(al);
+        menuDelete.addActionListener(al);
+        menuUpload.addActionListener(al);
+
+        return localPopup;
+    }
+
+    public JPopupMenu getRemoteRightClickMenu() {
+        localPopup = new JPopupMenu();
+        JMenuItem menuRename = new JMenuItem("Rename");
+        JMenuItem menuDelete = new JMenuItem("Delete");
+        JMenuItem menuDownload = new JMenuItem("Download");
+
+        localPopup.add(menuRename);
+        localPopup.add(menuDelete);
+        localPopup.add(menuDownload);
+
+        menuRename.setActionCommand("renameRemote");
+        menuDelete.setActionCommand("deleteRemote");
+        menuDownload.setActionCommand("download");
+
+        menuRename.addActionListener(al);
+        menuDelete.addActionListener(al);
+        menuDownload.addActionListener(al);
+
+        return localPopup;
+    }
+
+    public boolean createDeletePopup(String file) {
+        int n = JOptionPane.showConfirmDialog(
+                frame,
+                "Do you want to delete the file \"" + file + "\"?",
+                "Delete",
+                JOptionPane.YES_NO_OPTION);
+        return (n == 0) ? true : false;
+    }
+
+    public String createRenamePopup(String file){
+
+        String name = (String) JOptionPane.showInputDialog(
+                    frame,
+                    "Rename the file \" " + file + "\" to...",
+                    "Rename",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    "");
+        return name;
+    }
 }
