@@ -125,6 +125,7 @@ public class Client extends JFrame {
 
         public void actionPerformed(ActionEvent e) {
             out.println(messageBox.getText()); //skicka text till server
+            chatBox.append(messageBox.getText() + "\n");
             messageBox.setText("");
         }
     }

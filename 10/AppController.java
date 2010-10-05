@@ -98,6 +98,7 @@ public class AppController implements ActionListener, MouseListener {
             view.quit();
         }
 
+        /* Rename and delete are used at right click menu */
         if (command.equals("renameLocal")) {
             System.out.println("rename");
             String newName = view.createRenamePopup(view.getLocalFile().getName());
@@ -126,6 +127,7 @@ public class AppController implements ActionListener, MouseListener {
 
             }
         }
+
 
         if (command.equals("deleteLocal")) {
             if (view.createDeletePopup(view.getLocalFile().getName())) {
@@ -195,25 +197,35 @@ public class AppController implements ActionListener, MouseListener {
     public void mousePressed(MouseEvent e) {
 
         if (SwingUtilities.isRightMouseButton(e)) {
+            JList list = (JList) e.getSource();
+            int index = list.locationToIndex(e.getPoint());
+
+
             try {
                 Robot robot = new java.awt.Robot();
-                robot.mousePress(InputEvent.BUTTON1_MASK);
+
+                /* Simulate mouse press so selection is made in list */
+                robot.mousePress(InputEvent.BUTTON1_MASK);  
+
+                /* Simulate mouse release so popup menu is shown */
                 robot.mouseRelease(InputEvent.BUTTON1_MASK);
             } catch (AWTException ae) {
                 System.out.println(ae);
             }
+
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
+
             JList list = (JList) e.getSource();
 
             if (e.getComponent().getName().equals("localList")) {
-                if (!list.isSelectionEmpty() && view.getLocalFile().isFile() ) {
+                if (!list.isSelectionEmpty() && view.getLocalFile().isFile()) {
                     JPopupMenu rm = view.getLocalRightClickMenu();
-                    rm.show(list, e.getX(), e.getY());
+                    rm.show(list, e.getX(), e.getY()); // show right click menu
                     System.out.println(view.getLocalFile().getAbsoluteFile() + " selected");
                 }
             }
