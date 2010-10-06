@@ -19,7 +19,6 @@ public class Main {
         // Create a controller
         AppController appController = new AppController(view, model);
         
-
     }
 
 }

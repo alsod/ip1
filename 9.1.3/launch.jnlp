@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="file:/Users/alsod/Kod/ip1/9.1.3/" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>Browser</title>
+        <vendor>André Karlsson</vendor>
+        <homepage href=""/>
+        <description>IP1-9_1_3</description>
+        <description kind="short">Browser</description>
+    </information>
+<update check="always"/>
+
+<security>
+    <all-permissions/>
+</security>
+
+    <resources>
+<j2se version="1.5+"/>
+<jar href="Browser.jar" main="true"/>
+    </resources>
+    <application-desc main-class="Browser">
+    </application-desc>
+</jnlp>

@@ -1,0 +1,5 @@
+1. Kompilera .java-fil för applet och paketera denna i en jar-fil 
+2. Skriv en html-fil för att starta jar-filen
+3. Skriv en policy-fil som ger tillåtelse för applet med rätt codebase att öppna socket mot alla domäner
+4. öppna html-fil med appletviewer och ange policy-filen som parameter. 
+      tex.  appletviewer -J-Djava.security.policy=policy http://www.andrek.se/ip1/9.1.1/Browser.html

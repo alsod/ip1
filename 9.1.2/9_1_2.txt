@@ -1,0 +1,24 @@
+1. skapa jar-fil
+
+2. skapa nyckelpar för kodägaren
+   keytool -genkey -alias andre -keyalg RSA -validity 365 -keystore andre.keystore
+
+3. signera jar-filen med jarsigner
+   jarsigner -verbose -keystore andre.keystore -signedjar signedBrowser.jar Browser.jar andre
+
+4. exportera certifikatet från ägarens keystore
+   keytool -export -alias andre -file andrecert.cer -keystore andre.keystore
+
+5. skapa ny keystore för klienten
+   keytool -genkey -alias client -keyalg RSA -validity 365 -keystore client.keystore
+
+6. kopiera certifikatet från ägarens mapp till klienten
+
+7. skriv policyfil där sökväg till klientens keystore är definierad och där tillåtelse ges till program signerade av ägaren.
+
+8. importera ägarens certifikat i klientens keystore.
+   keytool -import -alias andre -file andrecert.cer -keystore client.keystore
+
+9. klienten kör ägarens applet och använder policyfilen
+   
+   

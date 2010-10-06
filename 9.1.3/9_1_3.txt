@@ -1,0 +1,11 @@
+1. skapa jar-fil och jnlp-fil
+
+2. skapa nyckelpar för kodägaren
+   keytool -genkey -alias andre -keyalg RSA -validity 365 -keystore andre.keystore
+
+3. signera jar-filen med jarsigner
+   jarsigner -verbose -keystore andre.keystore -signedjar signedBrowser.jar Browser.jar andre
+
+4. kör launch.html från browsern och godkänn certifikatet
+   
+   

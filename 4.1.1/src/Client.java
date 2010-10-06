@@ -97,7 +97,7 @@ public class Client extends JFrame {
         });
 
         /*Skapa socket och lyssningstråd*/
-        createSocket();
+       createSocket();
 
     }
 
@@ -109,7 +109,6 @@ public class Client extends JFrame {
 
         try {
             s = new Socket(host, Integer.valueOf(port)); //skapa ny socket
-
             setTitle(host + ":" + port); //sätt titelrad i fönster
             in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             out = new PrintWriter(s.getOutputStream(), true);

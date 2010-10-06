@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="http://www.andrek.se/jnlp/" href="wstest.jnlp" spec="1.0+">
+    <information>
+        <title>WSTest</title>
+        <vendor>Andre Karlsson</vendor>
+        <homepage href=""/>
+        <description>WSTest</description>
+
+    </information>
+<update check="always"/>
+    <resources>
+<j2se version="1.5+"/>
+<jar href="wstest.jar" main="true"/>
+    </resources>
+    <application-desc main-class="WSTest">
+    </application-desc>
+</jnlp>

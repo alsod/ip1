@@ -1,0 +1,5 @@
+keystore "/Users/alsod/Kod/ip1/9.1.2/client/client.keystore";
+
+grant SignedBy "andre" {
+permission java.net.SocketPermission "*", "accept, connect, listen, resolve";
+};

@@ -1,0 +1,3 @@
+grant codeBase "http://www.andrek.se/ip1/9.1.1" {
+permission java.net.SocketPermission "*", "accept, connect, listen, resolve";
+};
