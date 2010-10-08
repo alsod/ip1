@@ -8,6 +8,10 @@
  */
 public class Main {
 
+    /**
+     * Create the different parts needed by the application
+     * @param args
+     */
     public static void main(String[] args) {
 
         // Create a new view for the application

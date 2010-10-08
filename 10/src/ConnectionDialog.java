@@ -10,8 +10,7 @@ import javax.swing.JTextField;
  * @author Andre Karlsson
  *
  * Class is used by the View to create the components and layout
- * of the connection dialog. Provides getters and possibly setters
- * for textfields.
+ * of the connection dialog. Provides getters for textfields.
  */
 public class ConnectionDialog {
 
@@ -31,7 +30,7 @@ public class ConnectionDialog {
     /**
      * Create all components and lay them out on a panel. Return this so it
      * can be used on a frame.
-     * @return JPanel
+     * @return JPanel Connection dialog panel
      */
     public JPanel createContentPane() {
 
@@ -133,7 +132,7 @@ public class ConnectionDialog {
 
     /**
      * Send String with field contents to be used to make a connection
-     * @return String
+     * @return String connection adress
      */
     public String getAddressField() {
         return addressField.getText();
@@ -141,7 +140,7 @@ public class ConnectionDialog {
 
     /**
      * Send String with field contents to be used to make a connection
-     * @return String
+     * @return String connection password
      */
     public String getPasswordField() {
         return passwordField.getText();
@@ -149,7 +148,7 @@ public class ConnectionDialog {
 
     /**
      * Send String with field contents to be used to make a connection
-     * @return String
+     * @return String connection port
      */
     public String getPortField() {
         return portField.getText();
@@ -157,7 +156,7 @@ public class ConnectionDialog {
 
     /**
      * Send String with field contents to be used to make a connection
-     * @return String
+     * @return String connection username
      */
     public String getUsernameField() {
         return usernameField.getText();
@@ -167,7 +166,7 @@ public class ConnectionDialog {
 
     /**
      * Add Actionlistener to components in Dialog
-     * @param al
+     * @param al actionlistener given by controller
      */
     public void addConnectionDialogActionListeners(ActionListener al) {
         // Add listener to Connect Button

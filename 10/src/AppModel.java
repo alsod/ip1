@@ -208,7 +208,7 @@ public class AppModel {
     /**
      * Download file from ftp server, uses a ProgressMonitor
      * to display progress
-     * @param file
+     * @param file file to be downloaded
      */
     public void getRemoteFile(final FTPFile file) {
         try {
@@ -304,10 +304,19 @@ public class AppModel {
 
     }
 
+    /**
+     * Delete a local file
+     * @param file file to be deleted
+     */
     public void deleteLocalFile(File file) {
         file.delete();
     }
 
+    /**
+     * Delete a remote file
+     * @param file remote file to be deleted
+     * @throws IOException
+     */
     public void deleteRemoteFile(FTPFile file) throws IOException {
         if(client.deleteFile(file.getName())){
             System.out.println("delete success");
@@ -316,10 +325,21 @@ public class AppModel {
         }
     }
 
+    /**
+     * Change the name of a local file
+     * @param file file to be renamed
+     * @param newName the new name to be given
+     */
     public void renameLocalFile(File file, String newName) {
         file.renameTo(new File(localPath + "/" + newName));
     }
 
+    /**
+     * Change the name of a remote file
+     * @param file file to be renamed
+     * @param newName the name to be given
+     * @throws IOException
+     */
     public void renameRemoteFile(FTPFile file, String newName) throws IOException {
         client.rename(file.getName(), newName);
     }

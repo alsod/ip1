@@ -27,23 +27,42 @@ public class AppView {
     MouseListener ml;
     JPopupMenu localPopup;
 
+    /**
+     * Create the main application gui
+     */
     public AppView() {
         createAndShowGUI();
 
     }
 
+    /**
+     * Get adress from connection dialog
+     * @return adress to server
+     */
     public String getAddress() {
         return cd.getAddressField();
     }
 
+    /**
+     * Get port from connection dialog
+     * @return port to server
+     */
     public String getPort() {
         return cd.getPortField();
     }
 
+    /**
+     * Get username from connection dialog
+     * @return username
+     */
     public String getUsername() {
         return cd.getUsernameField();
     }
 
+    /**
+     * Get password from connection dialog
+     * @return password
+     */
     public String getPassword() {
         return cd.getPasswordField();
     }
@@ -63,10 +82,17 @@ public class AppView {
         addConnectionDialogActionListeners();
     }
 
+    /**
+     * Close the connection dialog window
+     */
     public void closeConnectionDialog() {
         cdFrame.dispose();
     }
 
+    /**
+     * Create a new alert dialog
+     * @param msg the message to display
+     */
     public void createAlert(String msg) {
         JOptionPane.showMessageDialog(frame, msg, "Error", 0);
     }
@@ -99,7 +125,7 @@ public class AppView {
 
     /**
      * Used by Controller to set the MouseListener used by components in the application
-     * @param al MouseListener given by Controller
+     * @param ml MouseListener given by Controller
      */
     public void setMouseListener(MouseListener ml) {
         this.ml = ml;
@@ -107,34 +133,64 @@ public class AppView {
 
     }
 
+    /**
+     * Add actionlisteners to connection dialog
+     */
     public void addConnectionDialogActionListeners() {
         cd.addConnectionDialogActionListeners(this.al);
     }
 
+    /**
+     * Tell remotelist in contentpane to update
+     * @param files list of files from server
+     */
     public void populateRemoteList(FTPFile[] files) {
         c.populateRemoteList(files);
     }
 
+    /**
+     * Tell locallist in contentpane to update
+     * @param files list of local files
+     */
     public void populateLocalList(File[] files) {
         c.populateLocalList(files);
     }
 
+    /**
+     * Get file that is choosen in localfilelist
+     * @return choosen file
+     */
     public File getLocalFile() {
         return c.getLocalFile();
     }
 
+    /**
+     * Get file that is choosen in remotelist
+     * @return choosen file
+     */
     public FTPFile getRemoteFile() {
         return c.getRemoteFile();
     }
 
+    /**
+     * Close program
+     */
     public void quit() {
         frame.dispose();
     }
 
+    /**
+     * Enable or disable interaction with the gui
+     * @param bool true if interactions enabled, false otherwise
+     */
     public void enableGUI(boolean bool) {
         c.enableGUI(bool);
     }
 
+    /**
+     *  Create a menu to show on rightclick in locallist
+     * @return rightclick menu
+     */
     public JPopupMenu getLocalRightClickMenu() {
         localPopup = new JPopupMenu();
         JMenuItem menuRename = new JMenuItem("Rename");
@@ -156,6 +212,10 @@ public class AppView {
         return localPopup;
     }
 
+    /**
+     *  Create a menu to show on rightclick in remotelist
+     * @return rightclick menu
+     */
     public JPopupMenu getRemoteRightClickMenu() {
         localPopup = new JPopupMenu();
         JMenuItem menuRename = new JMenuItem("Rename");
@@ -177,6 +237,11 @@ public class AppView {
         return localPopup;
     }
 
+    /**
+     * Create a popup to show when delete is choosen
+     * @param file the name of the file to be deleted
+     * @return true if yes is choosen false otherwise
+     */
     public boolean createDeletePopup(String file) {
         int n = JOptionPane.showConfirmDialog(
                 frame,
@@ -186,6 +251,11 @@ public class AppView {
         return (n == 0) ? true : false;
     }
 
+    /**
+     * Create popup to show when rename is choosen
+     * @param file name of file to be renamed
+     * @return new name of file or null if no new name is given
+     */
     public String createRenamePopup(String file){
 
         String name = (String) JOptionPane.showInputDialog(

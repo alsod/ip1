@@ -38,7 +38,7 @@ public class ContentPane {
 
     /**
      * Create components and add them to a Container which is then returned to caller
-     * @return Container
+     * @return Container Container holding filelists and arrowbuttons
      */
     public Container createContentPane() {
         //Create the content-pane-to-be.
